@@ -17,20 +17,18 @@ default_point = "https://www.google.com/maps/@21.0182634,105.8241991,17z"
 # Read data from excel
 source_file = pd.read_excel(input_link)
 row_num = len(source_file)
-print(row_num)
 
 # Open Chrome
 driver = webdriver.Chrome(chrome_webdriver)
 driver.get("https://www.google.com/maps/")
-# Wait 10 sec for user to click "I agree"
+# Wait 10 secs for user to click "I agree"
 sleep(10)
 
-# Open default Google Maps starting point
+# Loop over the addresses to search on Google Maps
 for i in range(0, row_num):
 
     # driver.get(default_point) # Uncomment this line to use the default map point
     # Find search box & click
-    current_link = driver.current_url
     input_area = driver.find_element(By.ID, "searchboxinput")
     input_area.click()
     input_area.clear()
@@ -42,22 +40,22 @@ for i in range(0, row_num):
     search_button.click()
     # Wait 2 secs to retrieve the result
     sleep(2)
-    next_link = driver.current_url
+    current_link = driver.current_url
 
     # Split the link to get the coordinator
-    try:
-        if len(next_link.split("/")[1]) < 50:
-            latitude = next_link.split('/')[-2].split(',')[0][1:]
-            longitude = next_link.split('/')[-2].split(',')[1]
-        else:
-            latitude = next_link.split('/')[-1].split('!')[-2][2:]
-            longitude = next_link.split('/')[-1].split('!')[-1][2:]
-    except IndexError:
+    if current_link[0:35] == "https://www.google.com/maps/search/":
         latitude = "Cannot be found"
         longitude = "Cannot be found"
-
+    else:
+        if len(current_link.split("/")[1]) < 50:
+            latitude = current_link.split('/')[-2].split(',')[0][1:]
+            longitude = current_link.split('/')[-2].split(',')[1]
+        else:
+            latitude = current_link.split('/')[-1].split('!')[-2][2:]
+            longitude = current_link.split('/')[-1].split('!')[-1][2:]
     source_file.loc[i, "LAT"] = latitude
     source_file.loc[i, "LNG"] = longitude
 
+# Export to Excel file
 source_file.to_excel("D:/Projects/Python/Get Coordinator from Google/Data/result_file.xlsx")
 print("Done!")
