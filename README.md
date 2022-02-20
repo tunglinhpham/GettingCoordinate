@@ -12,6 +12,6 @@ At the start, a message will pop up to ask the user to allow using cookies. Clic
 
 After that, just wait until the code finishes. The output file should be inside the folder that you specified at the start of the code.
 
-In some cases, the address cannot be found (for example, multiple results), which will result a "Cannot be found" in the output file. Also, this code is not fast, as it has to wait for 2 seconds after clicking the Search button to make sure Google can show the proper result. I'm very happy to see some suggestions to overcome those problems.
+In some cases, the address cannot be found (for example, multiple results), which will result a "Cannot be found" in the output file. Also, this code is not fast, as it has to wait for 2 seconds after clicking the Search button to make sure Google Maps can show the proper result. I'm very happy to see some suggestions to overcome those problems.
 
 Happy scraping!
